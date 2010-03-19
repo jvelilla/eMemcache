@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-4-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-4-0 http://www.eiffel.com/developers/xml/configuration-1-4-0.xsd" name="elibmemcached" uuid="CA4EDE49-9779-4562-96EB-5F8FF13AF770" library_target="elibmemcached">
+	<target name="elibmemcached">
+		<root all_classes="true"/>
+		<option debug="false" warning="true" syntax_level="1">
+			<debug name="__unnamed_debug__" enabled="true"/>
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<setting name="address_expression" value="true"/>
+		<setting name="console_application" value="true"/>
+		<setting name="dead_code_removal" value="false"/>
+		<setting name="exception_trace" value="true"/>
+		<external_include location="/usr/local/include/">
+		</external_include>
+		
+		
+		
+	<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf" readonly="true"/>
+		
+		<cluster name="elibmemcached" location=".\" recursive="true">
+			<option debug="true">
+			</option>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/.svn$</exclude>
+				<exclude>/CVS$</exclude>
+			</file_rule>
+			<file_rule>
+				<exclude>^/memcached$</exclude>
+			</file_rule>
+			<cluster name="memcached" location=".\memcached\" recursive="true">
+				<file_rule>
+					<exclude>/EIFGENs$</exclude>
+					<exclude>/.svn$</exclude>
+					<exclude>/CVS$</exclude>
+				</file_rule>
+			</cluster>
+		</cluster>
+	</target>
+</system>
