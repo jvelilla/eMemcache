@@ -48,8 +48,8 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_FAILURE
              }"
 		end
-		
-	memcached_host_lookup_failure : INTEGER	
+
+	memcached_host_lookup_failure : INTEGER
 		--  MEMCACHED_HOST_LOOKUP_FAILURE
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -118,7 +118,7 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_PROTOCOL_ERROR
              }"
 		end
-		
+
 	memcahced_client_error : INTEGER
 		-- MEMCACHED_CLIENT_ERROR
 		external
@@ -169,7 +169,7 @@ feature -- Memcached_return_t enum	values
              }"
 		end
 
-	memcahed_notstored : INTEGER
+	memcached_notstored : INTEGER
 		--  MEMCACHED_NOTSTORED
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -178,6 +178,17 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_NOTSTORED
              }"
 		end
+
+	memcached_stored : INTEGER
+		--  MEMCACHED_STORED
+		external
+	                "C inline use <libmemcached/memcached.h>"
+        alias
+                "{
+               	MEMCACHED_STORED
+             }"
+		end
+
 
 	memcached_notfound : INTEGER
 		--  MEMCACHED_NOTFOUND
@@ -258,7 +269,7 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_VALUE
              }"
 		end
-		
+
 	memcached_stat : INTEGER
 	 	-- MEMCACHED_STAT
 	 	external
@@ -278,7 +289,7 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_ITEM
              }"
 		end
-		
+
 	memcached_errno : INTEGER
 		--  MEMCACHED_ERRNO
 		external
@@ -329,8 +340,8 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_FETCH_NOTFINISHED
              }"
 		end
-		
-	memcached_timeout : INTEGER	
+
+	memcached_timeout : INTEGER
 		--  MEMCACHED_TIMEOUT
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -339,8 +350,8 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_TIMEOUT
              }"
 		end
-		
-	memcached_buffered : INTEGER	
+
+	memcached_buffered : INTEGER
 		--  MEMCACHED_BUFFERED
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -349,7 +360,7 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_BUFFERED
              }"
 		end
-		
+
 	memcached_bad_key_provided : INTEGER
 		--  MEMCACHED_BAD_KEY_PROVIDED
 		external
@@ -360,7 +371,7 @@ feature -- Memcached_return_t enum	values
              }"
 		end
 
-	memcached_invalid_host_protocol : INTEGER		
+	memcached_invalid_host_protocol : INTEGER
 		--  MEMCACHED_INVALID_HOST_PROTOCOL
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -389,8 +400,8 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_UNKNOWN_STAT_KEY
              }"
 		end
-		
-	memcached_e2big : INTEGER	
+
+	memcached_e2big : INTEGER
 		--  MEMCACHED_E2BIG
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -399,8 +410,8 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_E2BIG
              }"
 		end
-		
-	memcached_invalid_arguments : INTEGER	
+
+	memcached_invalid_arguments : INTEGER
 		--  MEMCACHED_INVALID_ARGUMENTS
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -409,8 +420,8 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_INVALID_ARGUMENTS
              }"
 		end
-		
-	memcached_key_too_big : INTEGER	
+
+	memcached_key_too_big : INTEGER
 		--  MEMCACHED_KEY_TOO_BIG
 		external
 	                "C inline use <libmemcached/memcached.h>"
@@ -429,7 +440,7 @@ feature -- Memcached_return_t enum	values
                	MEMCACHED_MAXIMUM_RETURN
              }"
 		end
-		
+
 
 
 
