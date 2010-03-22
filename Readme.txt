@@ -5,7 +5,7 @@ This library (wrapper is under development).
 REQUIREMENTS
 ============
 
-1)Install memcached:
+1)Install memcached and libevent:
 #>sudo apt-get install memcached
 
 2)Install libmemcached http://tangent.org/552/libmemcached.html
