@@ -13,13 +13,16 @@ class
 		MEMCACHE_CONSTANTS
 			undefine default_create
 		end
-		MEMCACHE_RETURN_TYPE
+		DEBUG_OUTPUT
 			undefine default_create
 		end
-
 create {ANY} default_create
 
+-- TODO create a is_valid_key
+--      create a is_valid_value
+--      free the values from memcache
 feature -- Initialization
+
 	default_create
 		-- create a memcached_st structure that will then be used by other features
 		-- to communicate with the server
@@ -40,7 +43,7 @@ feature -- Clean Memcache Memory
 feature -- Wipe contents of memcached servers
 
 	flush
-		-- Clean the contents of memcached(1) servers,  causes an immediate flush
+		-- Clean the contents of memcached servers,  causes an immediate flush
 		-- It will flush the servers in the order that they were added.
 		do
 			memcached_status := internal_flush (0)
@@ -89,6 +92,7 @@ feature -- Disconnect from all servers
 		end
 
 feature -- Add value to the server
+
 	add ( a_key : STRING; a_value:STRING)
 		-- Only store the data if the key does not exist. If the key exists,
 		-- we get NOT_STORED, Otherwise we get STORED -- SUCCESS
@@ -107,6 +111,82 @@ feature -- Add value to the server
 			is_valid_response : memcached_notstored = memcached_status or memcached_success = memcached_status
 		end
 
+
+	set (a_key : STRING; a_value:STRING)
+		-- Add a new item to memcached or replace an existing one with new data
+		require
+			key_not_void_or_empty: a_key /= Void and (not a_key.is_empty)
+			is_a_valid_key_size  : (create {C_STRING}.make(a_key)).bytes_count <= memcached_max_key
+			value_not_void_or_empty : a_value /= Void and (not a_value.is_empty)
+		local
+			lkey : C_STRING
+			lvalue : C_STRING
+		do
+				create lkey.make (a_key)
+				create lvalue.make (a_value)
+				memcached_status := memcached_set (memcache_structure,lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
+		ensure
+			set_value_for_key : memcached_status = memcached_success
+		end
+
+feature -- Get value from the server
+
+	get (a_key : STRING) : STRING
+		-- Get an individual value from the server, based on a_key
+		-- The object will be returned upon success and NULL will be returned on failure.
+		require
+			key_not_void_or_empty: a_key /= Void and (not a_key.is_empty)
+			is_a_valid_key_size  : (create {C_STRING}.make(a_key)).bytes_count <= memcached_max_key
+		local
+			lkey : C_STRING
+			error : C_STRING
+			mrt : MEMCACHE_RETURN_TYPE
+			lresult : POINTER
+			lc : CHARACTER
+		do
+			create mrt
+			create lkey.make (a_key)
+			create error.make_empty (mrt.structure_size)
+			lresult := memcached_get (memcache_structure, lkey.item, lkey.bytes_count.as_natural_32, 0,0, error.item)
+			if lresult /= default_pointer then
+				create Result.make_from_c(lresult)
+			else
+				status := error.string.at (1).code.out   -- Validate
+				print ("%N MEMCACHED_GET:" + debug_output + "%N")
+			end
+		ensure
+		   -- Which should be the postcondition here?
+		   -- key_found : memcached_status = memcached_success
+		   -- or key_not_found : memcached_status = memcached_notfound
+		   added_key : memcached_status = memcached_success or memcached_status = memcached_notfound
+		end
+
+feature -- Remove Elements
+
+	delete (a_key : STRING)
+		-- delete the particular key `a_key'.
+		require
+	 		key_not_void_or_empty: a_key /= Void and (not a_key.is_empty)
+			is_a_valid_key_size  : (create {C_STRING}.make(a_key)).bytes_count <= memcached_max_key
+			-- exist the key `a_key'
+		local
+			lkey : C_STRING
+		do
+			create lkey.make (a_key)
+			memcached_status := memcached_delete (memcache_structure, lkey.item,lkey.bytes_count.as_natural_32,0)
+		ensure
+			-- memcached_success or memcached_notfund
+			delelted_key : memcached_status = memcached_success or memcached_status = memcached_notfound
+		end
+
+feature -- Status report
+
+	debug_output: STRING
+            -- String that should be displayed in debugger to represent `Current'.
+        do
+            Result :=status
+        end
+
 feature {NONE} -- Implementation
 
 	internal_flush ( an_expiration: NATURAL_32 ) : INTEGER_32
@@ -120,6 +200,8 @@ feature {NONE} -- Implementation
 
 	memcached_status : INTEGER_32
 
+	status : STRING
+		-- String representation of memcache return types.
 invariant
 	memcached_structed_created: memcache_structure /= default_pointer
 
