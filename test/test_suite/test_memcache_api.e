@@ -18,6 +18,9 @@ inherit
 	MEMCACHE_API
 		undefine default_create
 		end
+	MEMCACHE_CONSTANTS
+			undefine default_create
+		end
 
 
 feature {NONE} -- Events
@@ -30,7 +33,7 @@ feature {NONE} -- Events
 			create lhost_2.make (host_2)
 			memcached_return := memcached_server_add (mc, lhost_2.item, port_2)
 			memcached_return := memcached_flush (mc, 0)
-			assert ("Expected Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+			assert ("Expected Success :" + memcached_success.out ,memcached_success = memcached_return)
 		end
 
 feature -- Test Memcached Connect Server
@@ -42,7 +45,7 @@ feature -- Test Memcached Connect Server
 		do
 			create lhost_1.make (host_1)
 			memcached_return := memcached_server_add (mc, lhost_1.item, port_1)
-			assert ("Expected Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+			assert ("Expected Success :" + memcached_success.out ,memcached_success = memcached_return)
 		end
 
 	test_current_number_of_servers
@@ -64,7 +67,7 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make ("lkey")
 			create lvalue.make ("lvalue")
 			memcached_return := memcached_add (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Add Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Add Success :" + memcached_success.out ,memcached_success = memcached_return)
 		end
 
 	test_memcache_add_the_same_key_not_stored
@@ -76,12 +79,12 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make ("lkey")
 			create lvalue.make ("lvalue")
 			memcached_return := memcached_add (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Add Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Add Success :" + memcached_success.out ,memcached_success = memcached_return)
 
 			create lkey.make ("lkey")
 			create lvalue.make ("lnewvalue")
 			memcached_return := memcached_add (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Add Failure :" + mrt.memcached_notstored.out ,mrt.memcached_notstored = memcached_return)
+            assert ("Expected Add Failure :" + memcached_notstored.out ,memcached_notstored = memcached_return)
 		end
 
 	test_memcache_set
@@ -93,7 +96,7 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make ("lkey")
 			create lvalue.make ("lvalue")
 			memcached_return := memcached_set (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Add Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Add Success :" + memcached_success.out ,memcached_success = memcached_return)
 		end
 
 	test_memcache_set_the_same_key
@@ -105,12 +108,12 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make ("lkey")
 			create lvalue.make ("lvalue")
 			memcached_return := memcached_set (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Set Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Set Success :" + memcached_success.out ,memcached_success = memcached_return)
 
 			create lkey.make ("lkey")
 			create lvalue.make ("lnewvalue")
 			memcached_return := memcached_set (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Set Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Set Success :" + memcached_success.out ,memcached_success = memcached_return)
 		end
 
 
@@ -123,12 +126,12 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make ("lkey")
 			create lvalue.make ("lvalue")
 			memcached_return := memcached_set (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Set Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Set Success :" + memcached_success.out ,memcached_success = memcached_return)
 
 			create lkey.make ("lkey")
 			create lvalue.make ("lnewvalue")
 			memcached_return := memcached_replace (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Replace Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Replace Success :" + memcached_success.out ,memcached_success = memcached_return)
 		end
 
 	test_memcache_replace_key_does_not_exist
@@ -140,7 +143,7 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make ("lkey")
 			create lvalue.make ("lnewvalue")
 			memcached_return := memcached_replace (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Replace NOT_STORED :" + mrt.memcached_notstored.out ,mrt.memcached_notstored = memcached_return)
+            assert ("Expected Replace NOT_STORED :" + memcached_notstored.out ,memcached_notstored = memcached_return)
 		end
 
 	test_memcache_add_key_to_big
@@ -159,7 +162,7 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make (l)
 			create lvalue.make ("lvalue")
 			memcached_return := memcached_add (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Add Key To Long :" + mrt.memcached_bad_key_provided.out ,mrt.memcached_bad_key_provided = memcached_return)
+            assert ("Expected Add Key To Long :" + memcached_bad_key_provided.out ,memcached_bad_key_provided = memcached_return)
 		end
 
 
@@ -175,10 +178,10 @@ feature -- Test Memcached ADD, SET, REPLACE, INCREMENT
 			create lkey.make ("lkey")
 			create lvalue.make ("10")
 			memcached_return := memcached_add (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Add Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Add Success :" + memcached_success.out ,memcached_success = memcached_return)
 
             memcached_return := memcached_increment (mc, lkey.item, lkey.bytes_count.as_natural_32, 1, lvalue.item)
-			assert ("Expected Increment Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+			assert ("Expected Increment Success :" + memcached_success.out ,memcached_success = memcached_return)
 			create error.make_empty (mrt.structure_size)
 
 			lreturn := memcached_get (mc, lkey.item,lkey.bytes_count.as_natural_32,0,0, error.item)
@@ -199,10 +202,10 @@ test_memcache_decrement
 			create lkey.make ("lkey")
 			create lvalue.make ("10")
 			memcached_return := memcached_add (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Add Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Add Success :" + memcached_success.out ,memcached_success = memcached_return)
 
             memcached_return := memcached_decrement (mc, lkey.item, lkey.bytes_count.as_natural_32, 1, lvalue.item)
-			assert ("Expected Decrement Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+			assert ("Expected Decrement Success :" + memcached_success.out ,memcached_success = memcached_return)
 			create error.make_empty (mrt.structure_size)
 
 			lreturn := memcached_get (mc, lkey.item,lkey.bytes_count.as_natural_32,0,0, error.item)
@@ -232,7 +235,7 @@ feature -- Test Memcached GET
 			create lvalue.make (l)
 
 			memcached_return := memcached_set (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Set Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Set Success :" + memcached_success.out ,memcached_success = memcached_return)
 
 			create error.make_empty (mrt.structure_size)
 			create a_value_length.default_create
@@ -280,12 +283,12 @@ feature -- Test Memcached DELETE
 			create lkey.make ("lkey")
 			create lvalue.make ("lvalue")
 			memcached_return := memcached_set (mc, lkey.item, lkey.bytes_count.as_natural_32, lvalue.item, lvalue.bytes_count.as_natural_32,0,0)
-            assert ("Expected Set Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Set Success :" + memcached_success.out ,memcached_success = memcached_return)
 
 			create lkey.make ("lkey")
 
 			memcached_return := memcached_delete (mc, lkey.item, lkey.bytes_count.as_natural_32,0)
-            assert ("Expected Delete Success :" + mrt.memcached_success.out ,mrt.memcached_success = memcached_return)
+            assert ("Expected Delete Success :" + memcached_success.out ,memcached_success = memcached_return)
 		end
 
 
@@ -299,7 +302,7 @@ feature -- Test Memcached DELETE
 
 			create lkey.make ("lkey")
 			memcached_return := memcached_delete (mc, lkey.item, lkey.bytes_count.as_natural_32,0)
-            assert ("Expected Delete Key Not Found :" + mrt.memcached_notfound.out ,mrt.memcached_notfound = memcached_return)
+            assert ("Expected Delete Key Not Found :" + memcached_notfound.out ,memcached_notfound = memcached_return)
 		end
 
 feature {NONE} --implementation
