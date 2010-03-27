@@ -179,7 +179,19 @@ feature -- Remove Elements
 			delelted_key : memcached_status = memcached_success or memcached_status = memcached_notfound
 		end
 
+
+feature -- Query
+
+	is_valid_key ( a_key : STRING ) : BOOLEAN
+		-- The `a_key' cannot exceed 250 characters.
+		-- The `a_key' cannot be null.
+		-- The `a_key' cannot be empty.
+		do
+			Result :=  a_key /= Void and (not a_key.is_empty) and (create {C_STRING}.make(a_key)).bytes_count <= memcached_max_key
+		end
+
 feature -- Status report
+
 
 	debug_output: STRING
             -- String that should be displayed in debugger to represent `Current'.

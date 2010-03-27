@@ -13,7 +13,15 @@
 		<external_include location="/usr/local/include/">
 		</external_include>
 		
-		
+	<external_object location="`pkg-config --libs --cflags libmemcached`">
+			<condition>
+				<platform excluded_value="windows"/>
+				<multithreaded value="false"/>
+			</condition>
+		</external_object>
+	<external_object location="/usr/local/lib/libmemcached.so"/>
+	<external_object location="/usr/local/lib/libmemcached.so.4"/>
+	
 		
 	<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf" readonly="true"/>
