@@ -26,6 +26,38 @@ feature {NONE} -- Events
 			memcache.flush
 		end
 
+
+feature --Test Key
+
+	test_key_empty
+		local
+			lkey : STRING
+		do
+			lkey := ""
+			assert ("Expected False", memcache.is_valid_key(lkey) = False)
+		end
+
+	test_key_void
+		local
+			lkey : STRING
+		do
+			assert ("Expected False", memcache.is_valid_key(lkey) = False)
+		end
+
+	test_key_too_long
+		local
+			lkey : STRING
+		do
+			lkey := "[
+			yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+			yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+			yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+			yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+			yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+			yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+			]"
+			assert ("Expected False", memcache.is_valid_key(lkey) = False)
+		end
 feature -- Test Add Values
 
 	test_memcache_add
